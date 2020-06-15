@@ -1,0 +1,39 @@
+h2 {
+    color: #151829;
+    font-size: 2em;
+    font-weight: normal;
+    margin: 20px;
+}
+
+form {
+    padding: 10px 20px;
+    margin: auto;
+    max-width: 90%;
+}
+
+form .field {
+    background-color: #e6e6e6;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    display: block;
+    margin: 10px;
+    padding: 10px;
+    transition: .3s;
+    width: 30%;
+}
+
+form .field:hover {
+    background-color: white;
+    border-color: #e6e6e6;
+    cursor: pointer;
+}
+
+form .field:focus {
+    background-color: white;
+    border-color: #2177ff;
+    color: #2177ff;
+}
+
+textarea {
+    resize: horizontal;
+}

@@ -1,0 +1,40 @@
+main {
+    padding: 20px;
+}
+
+h2 {
+    color: #151829;
+    font-size: 2em;
+    font-weight: normal;
+    margin-left: 20px;
+}
+
+.post-list {
+    background-color: #e6e6e6;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.post-list > div {
+    display: grid;
+    grid-template-columns: 8fr 2fr;
+    padding: 15px;
+}
+
+.post-list .headers > * {
+    font-weight: bold;
+}
+
+.post-item {
+    border-top: 2px solid #151829;
+    transition: .3s;
+}
+
+.post-item a {
+    color: #2177ff;
+    text-decoration: none;
+}
+
+.post-item a:hover {
+    text-decoration: underline;
+}

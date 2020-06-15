@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); -%>
+    <link rel="stylesheet" href="css/manager.css" />
+    <title>API CRUD MongoDB Atlas</title>
+</head>
+
+<body>
+    <%# Outputs unescaped code %>
+    <%- include('../partials/menu'); -%>
+
+    <main>
+        <h2>Post list</h2>
+        <div class="post-list">
+            <div class="headers">
+                <p>Title</p>
+                <p>Publish date</p>
+            </div>
+            <div class="post-item">
+                <a href="/post/#">Ejemplo de post</a>
+                <p>15/06/2020</p>
+            </div>
+        </div>
+    </main>
+    
+    <%- include('../partials/footer'); -%>
+</body>
+
+</html>

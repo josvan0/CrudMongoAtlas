@@ -19,36 +19,60 @@ mongoose.connect(process.env.MONGO_URI, {
     useUnifiedTopology: true
 });
 
-const userSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    age: Number,
-    email: { type: String, required: true },
-    pass: { type: String, required: true }
+const postSchema = new mongoose.Schema({
+    title: { type: String, required: true },
+    content: { type: String, required: true },
+    author: { type: String, default: 'Anonymous' },
+    publishDate: { type: Date, default: new Date() }
 });
-
-const User = mongoose.model('User', userSchema);
+const Post = mongoose.model('Post', postSchema);
 
 // ********** middlewares **********
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(express.static(`${__dirname}/public`));
+app.set('views', `${__dirname}/views`);
+app.set('view engine', 'ejs');
+
 app.use((req, res, next) => {
-    console.log(`${req.method} ${req.path} ${req.ip}`);
+    console.log(`${req.method} - ${req.path} ${req.ip}`);
     next();
 });
 
 // ********** routes **********
 
 app.get('/', (req, res) => {
-    res.redirect('/api');
+    res.redirect('/manager');
 });
 
-app.get('/api', (req, res) => {
-    res.sendFile(`${__dirname}/views/api.html`);
+app.get('/manager', (req, res) => {
+    res.render('pages/manager');
 });
 
-app.route('/api/users/:userId?')
-    .get((req, res) => { })
+app.get('/post/:postId?', (req, res) => {
+    res.render('pages/post');
+});
+
+app.route('/api/posts/:postId?')
+    .get((req, res) => {
+        if (req.params.postId) {
+            Post.findById({ _id: req.params.postId }, (err, data) => {
+                if (err) {
+                    return res.json({ error: err });
+                }
+                res.json(data);
+            });
+        } else {
+            Post.find({}, (err, data) => {
+                if (err) {
+                    return res.json({ error: err });
+                }
+                res.json(data);
+            });
+        }
+    })
     .post((req, res) => { })
     .put((req, res) => { })
     .delete((req, res) => { });
