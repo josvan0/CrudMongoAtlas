@@ -52,7 +52,7 @@ app.get('/manager', (req, res) => {
 });
 
 app.get('/post/:postId?', (req, res) => {
-    res.render('pages/post');
+    res.render('pages/post', { postId: req.params.postId });
 });
 
 app.route('/api/posts/:postId?')
@@ -73,9 +73,22 @@ app.route('/api/posts/:postId?')
             });
         }
     })
-    .post((req, res) => { })
-    .put((req, res) => { })
-    .delete((req, res) => { });
+    .post((req, res) => {
+        if (req.params.postId) {
+            Post.findByIdAndUpdate(req.params.postId, {}, (err, data) => {});
+        } else {
+            Post.create({}, (err, data) => {});
+        }
+    });
+
+app.delete('/api/posts/:postId/delete', (req, res) => {
+    Post.deleteOne({ _id: req.params.postId }, (err) => {
+        if (err) {
+            return res.json({ error: err });
+        }
+        res.json({ message: 'Post deleted successfully' });
+    });
+});
 
 // ********** server **********
 

@@ -3,7 +3,7 @@
 
 <head>
     <%- include('../partials/head'); %>
-    <link rel="stylesheet" href="css/post.css" />
+    <link rel="stylesheet" href="/css/post.css" />
     <title>API CRUD MongoDB Atlas</title>
 </head>
 
@@ -13,7 +13,11 @@
     <main>
         <h2>Post</h2>
         <hr/>
-        <form method="POST" action="/api/posts">
+        <% if (postId) { %>
+            <form method="POST" action="/api/posts">
+        <% } else { %>
+            <%- `<form method="POST" action="/api/posts/${postId}">`%>
+        <% } %>
             <label for="title">Title:</label>
             <input type="text" required class="field" id="title" name="title" placeholder="Post title" maxlength="30" />
             
@@ -27,6 +31,9 @@
             <input type="date" class="field" id="publishDate" name="publishDate" />
             
             <a href="/manager" class="btn btn-secondary">Cancel</a>
+            <% if (postId) { %>
+                <%- `<a href="/api/posts/${postId}/delete" class="btn btn-danger">Delete</a>`%>
+            <% } %>
             <input type="submit" value="Save" class="btn btn-primary" />
         </form>
     </main>

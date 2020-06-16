@@ -92,3 +92,12 @@ nav .btn-menu:hover {
 .btn-secondary:hover {
     border-color: #2177ff;
 }
+
+.btn-danger {
+    border: 2px solid transparent;
+    color: red;
+}
+
+.btn-danger:hover {
+    border-color: red;
+}
