@@ -94,6 +94,7 @@ nav .btn-menu:hover {
 }
 
 .btn-danger {
+    background-color: white;
     border: 2px solid transparent;
     color: red;
 }

@@ -34,7 +34,7 @@
             <a href="/manager" class="btn btn-secondary">Cancel</a>
 
             <% if (postId) { %>
-                <%- `<a href="/api/posts/${postId}/delete" class="btn btn-danger">Delete</a>` %>
+                <%- `<button id="btn-delete" class="btn btn-danger">Delete</button>` %>
             <% } %>
 
             <input type="submit" value="Save" class="btn btn-primary" />
@@ -45,6 +45,23 @@
 
     <script>
         const postId = document.getElementById('postId');
+        const btnDelete = document.getElementById('btn-delete');
+        
+        btnDelete.addEventListener('click', (e) => {
+            e.preventDefault();
+            fetch(`http://localhost:9000/api/posts/${postId.value}`, { method: 'delete' })
+            .then((res) => {
+                return res.json();
+            })
+            .then((json) => {
+                alert(json.message);
+                window.location.href = '/manager';
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+        });
+        
         if (postId) {
             fetch(`http://localhost:9000/api/posts/${postId.value}`)
             .then((res) => {
