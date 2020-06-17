@@ -13,11 +13,12 @@
     <main>
         <h2>Post</h2>
         <hr/>
-        <% if (postId) { %>
-            <form method="POST" action="/api/posts">
-        <% } else { %>
-            <%- `<form method="POST" action="/api/posts/${postId}">`%>
-        <% } %>
+        <form method="POST" action="/api/posts">
+            
+            <% if (postId) { %>
+                <%- `<input type="hidden" id="postId" name="postId" value="${postId}" />` %>    
+            <% } %>
+            
             <label for="title">Title:</label>
             <input type="text" required class="field" id="title" name="title" placeholder="Post title" maxlength="30" />
             
@@ -31,14 +32,39 @@
             <input type="date" class="field" id="publishDate" name="publishDate" />
             
             <a href="/manager" class="btn btn-secondary">Cancel</a>
+
             <% if (postId) { %>
-                <%- `<a href="/api/posts/${postId}/delete" class="btn btn-danger">Delete</a>`%>
+                <%- `<a href="/api/posts/${postId}/delete" class="btn btn-danger">Delete</a>` %>
             <% } %>
+
             <input type="submit" value="Save" class="btn btn-primary" />
         </form>
     </main>
 
     <%- include('../partials/footer'); %>
+
+    <script>
+        const postId = document.getElementById('postId');
+        if (postId) {
+            fetch(`http://localhost:9000/api/posts/${postId.value}`)
+            .then((res) => {
+                return res.json();
+            })
+            .then((json) => {
+                const publishDate = new Date(json.publishDate);
+                const mm = publishDate.getMonth() + 1;
+                const dd = publishDate.getDate();
+
+                document.getElementById('title').value = json.title;
+                document.getElementById('content').value = json.content;
+                document.getElementById('author').value = json.author;
+                document.getElementById('publishDate').value = `${publishDate.getFullYear()}-${(mm > 9 ? '' : '0') + mm}-${(dd > 9 ? '' : '0') + dd}`;
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+        }
+    </script>
 </body>
 
 </html>

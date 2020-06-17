@@ -74,21 +74,42 @@ app.route('/api/posts/:postId?')
         }
     })
     .post((req, res) => {
-        if (req.params.postId) {
-            Post.findByIdAndUpdate(req.params.postId, {}, (err, data) => {});
-        } else {
-            Post.create({}, (err, data) => {});
+        let { postId, title, content, author, publishDate } = req.body;
+        let post = {
+            title: title,
+            content: content
+        };
+        if (author) {
+            post['author'] = author;
         }
-    });
+        if (publishDate) {
+            post['publishDate'] = publishDate;
+        }
 
-app.delete('/api/posts/:postId/delete', (req, res) => {
-    Post.deleteOne({ _id: req.params.postId }, (err) => {
-        if (err) {
-            return res.json({ error: err });
+        if (postId) {
+            Post.findByIdAndUpdate(postId, post, (err) => {
+                if (err) {
+                    return res.json({ error: err });
+                }
+                res.json({ message: 'Post updated successfully' });
+            });
+        } else {
+            Post.create(post, (err, data) => {
+                if (err) {
+                    return res.json({ error: err });
+                }
+                res.json(data);
+            });
         }
-        res.json({ message: 'Post deleted successfully' });
+    })
+    .delete((req, res) => {
+        Post.deleteOne({ _id: req.params.postId }, (err) => {
+            if (err) {
+                return res.json({ error: err });
+            }
+            res.json({ message: 'Post deleted successfully' });
+        });
     });
-});
 
 // ********** server **********
 

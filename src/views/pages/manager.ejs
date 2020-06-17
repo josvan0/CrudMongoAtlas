@@ -13,19 +13,41 @@
 
     <main>
         <h2>Post list</h2>
-        <div class="post-list">
+        <div id="post-list" class="post-list">
             <div class="headers">
                 <p>Title</p>
                 <p>Publish date</p>
             </div>
-            <div class="post-item">
-                <a href="/post/1">Ejemplo de post</a>
-                <p>15/06/2020</p>
+            <div id="to-delete-item" class="post-item">
+                <p>Cargando...<p>
+                <p></p>
             </div>
         </div>
     </main>
-    
+
     <%- include('../partials/footer'); %>
+
+    <script>
+        fetch('http://localhost:9000/api/posts')
+        .then((res) => {
+            return res.json();
+        })
+        .then((json) => {
+            const postList = document.getElementById('post-list');
+            const toDeleteItem = document.getElementById('to-delete-item');
+            postList.removeChild(toDeleteItem);
+            
+            json.forEach(post => {
+                postList.innerHTML += `<div class="post-item">
+                    <a href="/post/${post._id}">${post.title}</a>
+                    <p>${new Date(post.publishDate).toLocaleString()}</p>
+                </div>`;
+            });
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+    </script>
 </body>
 
 </html>

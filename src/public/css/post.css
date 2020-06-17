@@ -35,5 +35,7 @@ form .field:focus {
 }
 
 textarea {
+    min-width: 30%;
+    max-width: 90%;
     resize: horizontal;
 }
